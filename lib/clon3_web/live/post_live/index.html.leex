@@ -1,0 +1,19 @@
+<h1>Timeline</h1>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, Clon3Web.PostLive.FormComponent,
+    id: @post.id || :new,
+    title: @page_title,
+    action: @live_action,
+    post: @post,
+    return_to: Routes.post_index_path(@socket, :index) %>
+<% end %>
+
+
+<div id="posts" phx-update="prepend">
+  <%= for post <- @posts do %>
+    <%= live_component @socket, Clon3Web.PostLive.PostComponent, id: post.id, post: post  %>
+  <% end %>
+</div>
+
+<span><%= live_patch "New Post", to: Routes.post_index_path(@socket, :new) %></span>
