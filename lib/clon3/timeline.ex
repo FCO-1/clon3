@@ -121,10 +121,11 @@ defmodule Clon3.Timeline do
     Phoenix.PubSub.subscribe(Clon3.PubSub, "posts")
   end
 
+  @spec broadcast({:error, any} | {:ok, any}, any) :: {:reply} | {:error, any}
   defp broadcast({:error, _reason} = error, _event), do: error
 
-  defp broadcast({:ok,  _post}, event) do
-    Phoenix.PubSub.broadcast(Clon3.PubSub, "posts", {event. post})
-    {:ok, } 
+  defp broadcast({:ok, post}, event) do
+    Phoenix.PubSub.broadcast(Clon3.PubSub, "posts", {event, post})
+    {:ok, post} 
   end
 end
